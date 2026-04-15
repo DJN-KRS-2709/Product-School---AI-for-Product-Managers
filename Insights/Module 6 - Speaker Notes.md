@@ -239,25 +239,20 @@ Quick recap of what must be in your deck: Core System Prompt, AI Strategy One-Pa
 You don't need to cover every detail of every slide. The goal is demonstrating your strategic thinking, not creating a 50-page document.
 
 
-## Slide 26 — Presentation Kick-Off
-
-Let's go! Volunteer groups, you're up. Keep track of time — roughly 10 minutes per group to demo and share insights. Make it count. You have 7 days after the course completes to submit your final deliverables.
-
-
-## Slide 27 — Key Takeaways
+## Slide 26 — Key Takeaways
 
 Let me bring it home with a story about Tesla Autopilot.
 
-When Tesla first shipped Autopilot, the demos were magical. The car drives itself on the highway, changes lanes, takes exits. Internally, the team could show you dozens of flawless demo runs. But demos don't drive 2 billion miles across every road condition on earth. In production, edge cases appeared that no demo ever covered — a white truck against a bright sky that the camera couldn't distinguish, faded lane markings in construction zones, a cyclist making an unexpected turn. The demos said "95% accurate." The real world said "that 5% can be fatal." That's takeaway one — vibe checks and curated demos prove nothing about reliability at scale. You need systematic evaluation that tests the thousand intents your demo never imagined.
+When Tesla first shipped Autopilot, the demos were magical — the car drives itself, changes lanes, takes exits. But demos don't drive 2 billion miles across every road condition. In production, edge cases appeared that no demo covered — a white truck against a bright sky, faded lane markings in construction zones, a cyclist making an unexpected turn. The demos said "95% accurate." The real world said "that 5% can be fatal." That's takeaway one — vibe checks prove nothing about reliability at scale. You need systematic evaluation that tests the thousand intents your demo never imagined.
 
-Tesla's response was to build a governance framework with hard lines. Some failures trigger automatic intervention — if the system's confidence drops below a threshold, it forces the driver to take control. That's a hard gate. Other issues, like a slightly delayed lane-change suggestion, get logged and reviewed but don't stop the system. That's a soft gate. And certain scenarios have zero-tolerance metrics — the system must never accelerate toward a detected pedestrian, period. No exceptions, no matter what the confidence score says. They also built a failure taxonomy that categorizes every incident by severity and frequency, so the team fixes the high-severity/high-frequency problems first, not just whichever failure got the most press coverage. That's takeaway two — governance requires hard gates, zero-tolerance metrics, and failure taxonomies. Define them before you ship, not after the first incident.
+Tesla's response was governance with hard lines. Confidence drops below a threshold? The driver is forced to take control — that's a hard gate. A slightly delayed lane-change suggestion? Logged and reviewed but doesn't stop the system — that's a soft gate. The system must never accelerate toward a detected pedestrian — that's a zero-tolerance metric. And a failure taxonomy ensures the team fixes high-severity problems first, not whichever failure got the most press. That's takeaway two — define your hard gates, zero-tolerance metrics, and failure taxonomy before you ship.
 
-Tesla doesn't rely on just one type of testing. Automated simulations run millions of virtual miles testing edge cases at scale — that's the automated assessment layer. A dedicated team of safety reviewers watches real-world footage of near-misses and unusual behaviors, grading them against a structured rubric — that's the human eval layer. And every Tesla on the road sends back anonymized driving data that shows how often drivers disengage Autopilot, override a decision, or grab the wheel — that's the user feedback layer. No single layer catches everything. Simulations miss nuance. Human reviewers can't watch every mile. User data comes after the fact. Together, they form a comprehensive safety net. That's takeaway three — implement a three-layer eval stack. Automated for speed, human for nuance, user feedback for reality.
+Tesla doesn't rely on one type of testing. Automated simulations run millions of virtual miles — that's the automated layer. Safety reviewers grade real-world footage against a rubric — that's the human layer. Every Tesla on the road sends back data on how often drivers disengage or override — that's the user feedback layer. No single layer catches everything. Together, they form a complete safety net. That's takeaway three — build a three-layer eval stack. Automated for speed, human for nuance, user feedback for reality.
 
-And when the evals surface a problem — say, the car struggles with lane markings in rain — Tesla's team diagnoses before they prescribe. Is it a prompt-level issue? Maybe the system instructions for handling low-visibility conditions need sharper rules. Is it a model issue? Maybe the vision model needs to be swapped or retrained for wet road conditions. Is it a data issue? Maybe the training set doesn't have enough rainy-road footage from specific regions. Each diagnosis points to a different lever: prompt, model, or data. Pull the wrong one and you waste months. Pull the right one and the problem disappears in the next update. That's takeaway four — diagnose the root cause, then pull the right lever. That discipline is what makes an AI product better every single week.
+And when evals surface a problem — say, the car struggles with lane markings in rain — Tesla diagnoses before prescribing. Is it the instructions? The model? The training data? Each diagnosis points to a different lever. Pull the wrong one and you waste months. Pull the right one and it's fixed in the next update. That's takeaway four — diagnose the root cause, then pull the right lever.
 
 
-## Slide 28 — Resources and Templates
+## Slide 27 — Resources and Templates
 
 Here are your final resources — the AI Evals Stack template, the Human Evaluation Rubric template, and the Final Project Rubric Guide. These are tools you'll use well beyond this course.
 
@@ -266,4 +261,16 @@ Here are your final resources — the AI Evals Stack template, the Human Evaluat
 
 Last Q&A of the course. Any questions about evals, guardrails, the optimization levers, the governance framework — or anything from the past six modules? This is your chance. Unmute, chat, or Slack. Let's hear it.
 
-And with that — congratulations. You came into this course as product managers. You're leaving as AI product managers. You've got the mindset, the strategy, the architecture, the design skills, the agent knowledge, and the measurement framework. Now go build something incredible. It's been a pleasure.
+And with that — I want to take a moment before we wrap.
+
+Six modules. Six weeks. You showed up every single time — cameras on, engaged, asking hard questions, challenging each other in breakouts, building something real. That matters more than any certificate.
+
+Think about where you were in Module 1. Most of you had never written a system prompt. Some of you weren't sure what RAG stood for. A few of you told me you were nervous about being "too non-technical" for this. Look at what you built. You wrote AI strategies. You architected RAG pipelines. You designed invisible UIs. You spec'd autonomous agents. You built eval frameworks that would hold up in a real product review. You didn't just learn this stuff — you did it.
+
+Here's what I want you to remember: the AI landscape will keep changing. The models will get better. The tools will get easier. New patterns will emerge. But the fundamentals you learned here — how to think about AI as a product problem, how to validate before you build, how to earn user trust, how to measure what matters — those don't expire. That's your edge.
+
+You came in as product managers. You're leaving as AI product managers. And honestly? Some of the work I've seen from your groups would hold up against teams I've seen at top tech companies. I mean that.
+
+Stay connected. Keep building. Help each other. And when you ship your first AI feature in the real world — send me a message. I want to hear about it.
+
+It's been an absolute privilege. Thank you.

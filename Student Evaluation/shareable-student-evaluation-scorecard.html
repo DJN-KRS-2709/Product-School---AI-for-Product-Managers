@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interactive student evaluation scorecard — AI Product Management, Juno final project (100-point rubric, rankings, expandable feedback).">
+<meta name="theme-color" content="#0f1117">
+<title>Student Evaluation — AI Product Management (Juno)</title>
+<!-- Fully self-contained: no external CSS/JS/fonts — safe to email or open offline. -->
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e6eb;
+    --text-muted: #8b8fa3;
+    --accent: #6c5ce7;
+    --accent-light: #a29bfe;
+    --gold: #f0c040;
+    --silver: #b8c0cc;
+    --bronze: #cd7f32;
+    --green: #2ecc71;
+    --yellow: #f1c40f;
+    --red: #e74c3c;
+    --teal: #2dd4bf;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .header h1 {
+    font-size: 2rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-light), var(--teal));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .header p { color: var(--text-muted); font-size: 0.95rem; }
+  .stats-bar { display: flex; gap: 1.5rem; justify-content: center; margin: 1.5rem 0; flex-wrap: wrap; }
+  .stat-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem 1.25rem; text-align: center; }
+  .stat-pill .num { font-size: 1.5rem; font-weight: 700; color: var(--accent-light); }
+  .stat-pill .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .section-title { font-size: 1.3rem; font-weight: 600; margin: 2.5rem 0 1rem; color: var(--text); }
+  .podium { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .podium-card { background: var(--surface); border-radius: 16px; padding: 1.5rem; text-align: center; position: relative; border: 1px solid var(--border); }
+  .podium-card.first { order: 0; grid-column: 1 / -1; border-color: var(--gold); background: linear-gradient(135deg, rgba(240,192,64,0.08), var(--surface)); }
+  .podium-card.second { border-color: var(--silver); background: linear-gradient(135deg, rgba(184,192,204,0.06), var(--surface)); }
+  .podium-card.third { border-color: var(--bronze); background: linear-gradient(135deg, rgba(205,127,50,0.06), var(--surface)); }
+  .medal { font-size: 2rem; margin-bottom: 0.5rem; }
+  .podium-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .podium-product { color: var(--teal); font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .podium-score { font-size: 2rem; font-weight: 800; }
+  .podium-card.first .podium-score { color: var(--gold); }
+  .podium-card.second .podium-score { color: var(--silver); }
+  .podium-card.third .podium-score { color: var(--bronze); }
+  .podium-reason { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem; font-style: italic; }
+  .feedback-cards { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .feedback-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; }
+  .feedback-card:hover { border-color: var(--accent); }
+  .feedback-card.featured { border-color: var(--gold); background: linear-gradient(135deg, rgba(240,192,64,0.06), var(--surface)); box-shadow: 0 0 24px rgba(240,192,64,0.08); position: relative; }
+  .feedback-card.featured::before {
+    content: "★ Instructor pick"; position: absolute; top: -0.65rem; right: 1.5rem;
+    background: linear-gradient(135deg, var(--gold), #e6a817); color: #1a1d27; font-size: 0.65rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.75rem; border-radius: 6px;
+  }
+  .fc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .fc-head-left { display: flex; align-items: center; gap: 1rem; }
+  .fc-rank { font-size: 1.4rem; font-weight: 800; color: var(--text-muted); min-width: 2rem; text-align: center; }
+  .fc-rank.top3 { color: var(--gold); }
+  .fc-name { font-weight: 700; font-size: 1.05rem; }
+  .fc-product { color: var(--teal); font-size: 0.82rem; }
+  .fc-score { font-size: 1.6rem; font-weight: 800; }
+  .fc-score.s-high { color: var(--green); }
+  .fc-score.s-mid { color: var(--yellow); }
+  .fc-score.s-low { color: #e08070; }
+  .fc-breakdown { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+  .fc-dim { text-align: center; padding: 0.5rem 0.25rem; background: var(--surface2); border-radius: 8px; }
+  .fc-dim .dl { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+  .fc-dim .dv { font-size: 0.85rem; font-weight: 700; }
+  .fc-expand { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+  .feedback-card.open .fc-expand { max-height: 2200px; }
+  .fc-feedback {
+    background: linear-gradient(135deg, rgba(108,92,231,0.06), rgba(45,212,191,0.06));
+    border: 1px solid rgba(108,92,231,0.15); border-radius: 12px; padding: 1.25rem; margin-top: 0.75rem;
+  }
+  .fc-feedback-title { font-weight: 700; font-size: 0.85rem; color: var(--accent-light); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fc-feedback p { font-size: 0.88rem; line-height: 1.7; color: var(--text); margin-bottom: 0.75rem; }
+  .fc-feedback p:last-child { margin-bottom: 0; }
+  .fc-feedback .highlight { color: var(--teal); font-weight: 600; }
+  .fc-feedback .callout {
+    display: inline-block; background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.2);
+    border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.78rem; font-weight: 600; color: var(--teal); margin-top: 0.5rem;
+  }
+  .fc-toggle { text-align: center; font-size: 0.72rem; color: var(--accent-light); margin-top: 0.5rem; }
+  .criteria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
+  .criteria-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+  .criteria-item .cname { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.2rem; }
+  .criteria-item .cweight { font-size: 0.7rem; color: var(--text-muted); }
+  .criteria-item .cdesc { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem; }
+  footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+  @media (max-width: 768px) {
+    body { padding: 1rem; }
+    .podium { grid-template-columns: 1fr; }
+    .podium-card.first { grid-column: auto; }
+    .fc-breakdown { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media print {
+    body { background: #fff; color: #111; padding: 1rem; }
+    .header h1 { -webkit-text-fill-color: #1a1d27; color: #1a1d27; }
+    .feedback-card { break-inside: avoid; cursor: default; border-color: #ccc; }
+    .feedback-card .fc-expand { max-height: none !important; overflow: visible !important; }
+    .fc-toggle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Student Evaluation Scorecard</h1>
+  <p>AI Product Management — Final Project Deliverables (Juno)</p>
+  <div class="stats-bar">
+    <div class="stat-pill"><div class="num">10</div><div class="label">Submissions</div></div>
+    <div class="stat-pill"><div class="num">65.0</div><div class="label">Avg Score</div></div>
+    <div class="stat-pill"><div class="num">97</div><div class="label">Highest</div></div>
+    <div class="stat-pill"><div class="num">0</div><div class="label">Lowest</div></div>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.82rem;max-width:40rem;margin:1rem auto 0;">Deduped: identical PDF hashes counted once (e.g. Team 2, Dimi, workflow exports). Evaluated from current <code style="font-size:0.85em">Student Evaluation/</code> folder.</p>
+</div>
+
+<div class="section-title">Evaluation Criteria (100 points)</div>
+<div class="criteria-grid">
+  <div class="criteria-item"><div class="cname">System Message</div><div class="cweight">15 pts</div><div class="cdesc">Role, task, constraints, few-shot, citation rules</div></div>
+  <div class="criteria-item"><div class="cname">AI Strategy One-Pager</div><div class="cweight">15 pts</div><div class="cdesc">Problem, metrics, autonomy, scope, risks</div></div>
+  <div class="criteria-item"><div class="cname">RAG &amp; Data Strategy</div><div class="cweight">15 pts</div><div class="cdesc">Sources, retrieval, grounding, fail-safes</div></div>
+  <div class="criteria-item"><div class="cname">UX &amp; Interface</div><div class="cweight">15 pts</div><div class="cdesc">Iceberg flow, trust signals, evidence of UI</div></div>
+  <div class="criteria-item"><div class="cname">Agent Workflow (AWSpec)</div><div class="cweight">20 pts</div><div class="cdesc">Actors, pattern, memory, tools, autonomy fit</div></div>
+  <div class="criteria-item"><div class="cname">Evaluation Plan</div><div class="cweight">10 pts</div><div class="cdesc">Definition of “good,” eval stack, mitigations</div></div>
+  <div class="criteria-item"><div class="cname">Insights &amp; polish</div><div class="cweight">10 pts</div><div class="cdesc">Friction, aha moments, completeness</div></div>
+</div>
+
+<div class="section-title">Top 3</div>
+<div class="podium">
+  <div class="podium-card first">
+    <div class="medal">&#127942;</div>
+    <div class="podium-name">Dimi Kurtti, Olivia Anastassov, Celia Trifoi, Morgan Collins, Abdulmohsen Alfaraj</div>
+    <div class="podium-product">Building Juno — Associate PM Copilot</div>
+    <div class="podium-score">97</div>
+    <div class="podium-reason">Deepest AWSpec + eval plan: distributed ReAct, memory/tools, golden-set and regression-style thinking.</div>
+  </div>
+  <div class="podium-card second">
+    <div class="medal">&#129352;</div>
+    <div class="podium-name">Cappy Lassen, Aml Babikir, Julia Kazak-Nersesava, Karthikraja Raju, Zakia Aliahmad</div>
+    <div class="podium-product">Full PDF — prd-whisperer-hub.lovable.app</div>
+    <div class="podium-score">95</div>
+    <div class="podium-reason">Exceptional strategy math + RAG on real sources; Planner–Executor AWSpec; strong eval hygiene.</div>
+  </div>
+  <div class="podium-card third">
+    <div class="medal">&#129353;</div>
+    <div class="podium-name">Svitlana Vasylyshyn</div>
+    <div class="podium-product">Juno PM — shipped Lovable + Critique Agent loop</div>
+    <div class="podium-score">94</div>
+    <div class="podium-reason">Individual build with live demo, hybrid RAG rules, and practical eval + mitigation language.</div>
+  </div>
+</div>
+<div class="section-title">Full Rankings with Personalized Feedback</div><p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;">Click any card to expand the detailed score breakdown and personalized feedback.</p><div class="feedback-cards">
+  <div class="feedback-card featured" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank top3">1</div>
+        <div><div class="fc-name">Dimi Kurtti et al.</div><div class="fc-product">Building Juno — AI Agent for Associate PMs</div></div>
+      </div>
+      <div class="fc-score s-high">97</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">20</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">10</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Team, this is <span class="highlight">one of the most publication-ready Juno narratives in the cohort</span> — clear problem framing, explicit copilot vs. agent boundaries, and an agentic story that matches how prioritization actually works (multi-step reasoning, conflict detection, evidence hierarchy).</p><p>Your AWSpec reads like something engineering could review tomorrow: distributed ReAct across ingestion → synthesis → prioritization, concrete memory types, tool permissions, and fail-safes when evidence is thin. That is the Module 5 bar in action.</p><p>Your evaluation section is especially strong: golden-set testing, regression after prompt/RAG changes, blind comparison, edge-case stress tests, and live feedback — that is the three-layer eval stack your Module 6 asks for, not a vibe check.</p><p>The natural next step is to make the UX proof as undeniable as the rest: embed 1–2 crisp screenshots (or a short Loom) so stakeholders see trust signals in the UI, not only via prototype links.</p>
+        <span class="callout">Standout: Best AWSpec + evaluation plan combo in the cohort</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank top3">2</div>
+        <div><div class="fc-name">Cappy Lassen et al.</div><div class="fc-product">prd-whisperer-hub.lovable.app — PDF deliverable</div></div>
+      </div>
+      <div class="fc-score s-high">95</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">17</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">9</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Team, this submission is <span class="highlight">standout for strategic density</span>: the AI strategy section quantifies business impact with explicit revenue math, names copilot vs. agent boundaries clearly, and the RAG section lists real RocketShip sources (Slack, Jira, Zendesk, Confluence) with verification and fail-safe rules.</p><p>Your AWSpec uses a Planner–Executor pattern with specialized agents (evidence, clarification, sizing) — that is credible multi-agent design without over-claiming autonomy.</p><p>The evaluation plan includes active + passive signals, a human rubric, and a hallucination-rate guardrail — exactly the kind of operational eval hygiene Module 6 teaches.</p><p>Polish the tail of your insights section (one slide truncates mid-sentence) and you have a portfolio-grade artifact.</p>
+        <span class="callout">Standout: Strongest business case + live demo link in the updated cohort</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank top3">3</div>
+        <div><div class="fc-name">Svitlana Vasylyshyn</div><div class="fc-product">Juno PM — junoproject.lovable.app</div></div>
+      </div>
+      <div class="fc-score s-high">94</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">17</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">9</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Svitlana, this remains <span class="highlight">one of the strongest individual builds</span>: shipped Lovable demo, system prompt with signal-weighting order, hybrid RAG with anti-hallucination behavior, and a Critique Agent in the AWSpec.</p><p>Your evaluation section (critique testing, regeneration tracking, alignment scoring, zero-tolerance for unsupported requirements) reads like a real pilot readiness checklist.</p><p>If any demo credentials still appear in a PDF export, redact them before public sharing; the product story does not need them to shine.</p>
+        <span class="callout">Standout: Critique Agent + shipped prototype</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">4</div>
+        <div><div class="fc-name">Team 2 — PMC 5758</div><div class="fc-product">Juno — Final Project Deliverables v6.0</div></div>
+      </div>
+      <div class="fc-score s-high">93</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">15</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">16</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">10</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Team 2, your submission is <span class="highlight">remarkably complete across the course arc</span>: sharp system prompt, linked strategy artifact, RAG with sync cadences and hybrid retrieval, and a full three-layer eval stack in the PDF export.</p><p>Your AWSpec (Summarizer → Strategizer → Prioritizer) includes stop conditions and tool permissions — keep aligning naming with Module 5 vocabulary (Planner-Executor vs. ReAct) for stakeholder clarity.</p><p>Add visible UI proof alongside the iceberg narrative so reviewers see trust signals in the interface, not only in text.</p>
+        <span class="callout">Standout: Richest module artifact links + operational eval design</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">5</div>
+        <div><div class="fc-name">Group 7 — Andrey Zolotarev et al.</div><div class="fc-product">Lovable deck — ReAct + confidence gates</div></div>
+      </div>
+      <div class="fc-score s-high">88</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">16</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">10</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Team, your deck is <span class="highlight">tight and coherent</span>: copilot framing, hybrid RAG with confidence bands, ReAct loop with happy path vs. re-plan path, and an eval section that names blind review and source verification.</p><p>The group insights on autonomy vs. trust and “eval stack &gt; model” show real synthesis from the course.</p><p>Next step: include the full verbatim system prompt in-slide (or an appendix) so assessors see every constraint line-by-line.</p>
+        <span class="callout">Standout: Clearest confidence-gating story in slide format</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">6</div>
+        <div><div class="fc-name">Alex Kröller et al.</div><div class="fc-product">Updated PDF — RocketShip RAG sources</div></div>
+      </div>
+      <div class="fc-score s-mid">82</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">14</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">13</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">10</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">9</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">10</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Team, the <span class="highlight">updated export fixes the biggest prior issue</span>: RAG now describes RocketShip-relevant sources (SharePoint, Slack, Salesforce, refresh cadence) and hybrid retrieval with Top-7 and explicit insufficient-evidence behavior. That restores grounded trust.</p><p>Your insights on Lovable variability and design-language risk remain among the best reflections in the cohort.</p><p>Remaining gaps: UX still reads as “Key Screenshot” placeholder rather than embedded proof, and AWSpec still lists L3 autonomy while the product story is copilot-first — reconcile those for one coherent autonomy story.</p>
+        <span class="callout">Standout: Biggest RAG turnaround vs. earlier export</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">7</div>
+        <div><div class="fc-name">Ali Bamuallim</div><div class="fc-product">juno-insight-lab.lovable.app — individual PDF</div></div>
+      </div>
+      <div class="fc-score s-mid">80</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">13</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">13</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">12</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">11</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">16</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">7</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">8</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>Ali, your <span class="highlight">few-shot example is unusually rich</span> (tier-1 accounts, error codes, multi-artifact citations, explicit leap-of-faith risk) — that is senior PM calibration in prompt form.</p><p>The ReAct AWSpec with Strategy Owner + PRD Writer grading (ACTIONABLE / FUZZY / VAGUE) is memorable and teachable.</p><p>Clean up template typos and stray phrases copied from other domains; tighten the eval section from prompts into finalized methodology bullets.</p>
+        <span class="callout">Standout: Best few-shot calibration + creative AWSpec roles</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">8</div>
+        <div><div class="fc-name">Placeholder template</div><div class="fc-product">0e63862… — slides mostly image/preencoded</div></div>
+      </div>
+      <div class="fc-score s-low">14</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">2</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">2</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>This export is still largely <span class="highlight">visual placeholders</span> with limited extractable text — treat it as a shell until each section is filled with the same substance as the top PDFs.</p>
+        <span class="callout">Next step: Replace image slides with text or export speaker notes</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">9</div>
+        <div><div class="fc-name">Berenice Pernalete, Julie Nelson, Rasana Anandan</div><div class="fc-product">Room 4 — outline PPTX</div></div>
+      </div>
+      <div class="fc-score s-low">7</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">1</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">1</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>The deck still shows assignee tags instead of finished Juno content across required sections.</p>
+        <span class="callout">Next step: Ship content on slides 5–11</span>
+      </div>
+    </div>
+  </div>
+  <div class="feedback-card" onclick="this.classList.toggle('open')">
+    <div class="fc-head">
+      <div class="fc-head-left">
+        <div class="fc-rank">10</div>
+        <div><div class="fc-name">Unscorable PDF</div><div class="fc-product">721d88ca… — no extractable text</div></div>
+      </div>
+      <div class="fc-score s-low">0</div>
+    </div>
+    <div class="fc-breakdown"><div class="fc-dim"><div class="dl">Sys</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">Strat</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">RAG</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">UX</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">AW</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">Eval</div><div class="dv">0</div></div><div class="fc-dim"><div class="dl">Ins</div><div class="dv">0</div></div></div>
+    <div class="fc-toggle">Click to see feedback</div>
+    <div class="fc-expand">
+      <div class="fc-feedback">
+        <div class="fc-feedback-title">Personalized Feedback</div>
+        <p>No readable text extracted — re-export as a text-based PDF or replace the file.</p>
+        <span class="callout">Next step: Re-upload a scorable artifact</span>
+      </div>
+    </div>
+  </div></div>
+<footer>
+  <p>AI Product Management — Student Evaluation (Juno cohort)</p>
+  <p style="margin-top:0.5rem">100-point rubric · April 2026 · Single HTML — share or host on GitHub Pages</p>
+  <p style="margin-top:0.75rem"><a href="METHODOLOGY.md" style="color:var(--text-muted)">Evaluation methodology</a></p>
+</footer>
+</body>
+</html>

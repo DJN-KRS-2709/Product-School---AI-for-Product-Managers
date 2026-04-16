@@ -75,9 +75,10 @@ for slide in prs.slides:
 
 ### Step 3: Deduplicate and Scope
 
-- Treat **duplicate exports** (same team, same content) as **one** submission.  
+- Treat **duplicate exports** (same team, **same content hash**) as **one** submission — e.g. repeated Team 2 PDFs, duplicate “workflow” exports, or multiple copies of the same Dimi deck.  
 - Treat **unrelated templates** (e.g., a different final presentation brief) as **out of scope** for the Juno rubric unless the instructor requests a separate assessment.  
-- **Empty or blank PDFs** — score **0** until a readable file is provided.
+- **Empty or blank PDFs** — score **0** until a readable file is provided.  
+- **Re-scoring:** When a team replaces a PDF (e.g. corrected RAG domain), re-extract text and re-score; the scorecard reflects the **current** files in `Student Evaluation/`.
 
 ### Step 4: Score Each Submission
 
@@ -162,33 +163,42 @@ Each ranked entry received **personalized feedback** in the interactive scorecar
 
 ## 5. Output
 
-The evaluation is delivered as an interactive HTML scorecard (`evaluation-scorecard.html`):
+The evaluation is delivered as interactive HTML scorecards (kept in sync):
 
-- **Summary statistics** — teams counted, average, highest, lowest  
-- **Evaluation criteria** — 7 dimensions with point weights  
-- **Top 3 podium** — highest-scoring groups  
-- **Full rankings** — expandable cards with per-dimension breakdown and personalized feedback  
+- **`shareable-student-evaluation-scorecard.html`** — single-file, offline-friendly copy for LMS or email.  
+- **`evaluation-scorecard.html`** — same content (repo default name, mirrors Vibe Coding).
 
-Publish via **GitHub Pages** (or any static host) for sharing—same pattern as the Vibe Coding course:
+Each includes:
 
-**Interactive scorecard (results):** [`evaluation-scorecard.html`](evaluation-scorecard.html)
+- **Summary statistics** — submissions counted, average, highest, lowest (with a short note on deduplication).  
+- **Evaluation criteria** — 7 dimensions with point weights (100 pts total).  
+- **Top 3 podium** — highest-scoring groups.  
+- **Full rankings** — expandable cards with per-dimension breakdown and personalized feedback.
+
+Publish via **GitHub Pages** (or any static host) for sharing—same pattern as the Vibe Coding course.
 
 ---
 
 ## 6. Final Rankings (this run)
 
+**Scope:** **10** unique scored rows after deduplication (current files under `Student Evaluation/`). Header on the scorecard summarizes count and stats.
+
 | Rank | Team / artifact | Score |
 |------|-----------------|------:|
-| 1 | Dimi Kurtti, Olivia Anastassov, Celia Trifoi, Morgan Collins, Abdulmohsen Alfaraj — *Building Juno* | 97 |
-| 2 | Team 2 PMC 5758 (Jessica, Katinka, Matt, Mosaab, Sonia, Valeria) | 93 |
-| 3 | Alex Kroller, Jared Lewis, Michael Neuschwander, Nakedi, Salma K | 66 |
-| 4 | Unattributed Juno template (placeholders) | 40 |
-| 5 | Berenice Pernalete, Julie Nelson, Rasana Anandan — outline deck | 20 |
-| 6 | Blank / unscorable PDF | 0 |
+| 1 | Dimi Kurtti et al. — *Building Juno* | 97 |
+| 2 | Cappy Lassen, Aml Babikir, Julia Kazak-Nersesava, Karthikraja Raju, Zakia Aliahmad (`c3c06c6a…pdf`, prd-whisperer-hub) | 95 |
+| 3 | Svitlana Vasylyshyn — `Juno_PM_Svitlana_Vasylyshyn.pdf` (+ Lovable demo) | 94 |
+| 4 | Team 2 PMC 5758 | 93 |
+| 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
+| 6 | Alex Kröller et al. — updated `f8cc81de…pdf` (RocketShip RAG on-brief) | 82 |
+| 7 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
+| 8 | Placeholder template (`0e63862…pdf` — mostly image/preencoded slides) | 14 |
+| 9 | Room 4 — Berenice Pernalete, Julie Nelson, Rasana Anandan (outline PPTX) | 7 |
+| 10 | Blank / unscorable PDF (`721d88ca…`) | 0 |
 
-**Average score (all six rows):** 52.7 / 100  
+**Average score (all 10 rows):** 65.0 / 100  
 
-**Average excluding unscorable (0):** 63.2 / 100  
+**Average excluding unscorable (0):** 72.2 / 100 (9 rows)
 
 ---
 
@@ -199,8 +209,10 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 - **Highest-risk failure mode:** **Wrong-domain content** in RAG or data slides (copy-paste from another project) — breaks trust for the whole submission until fixed.  
 - **AWSpec quality:** Top teams separated on **ReAct / multi-agent clarity**, memory + tool boundaries, and stop conditions.  
 - **Incomplete submissions:** Outline-only decks score low by design; the methodology does **not** apply a participation floor.
+- **Individual + live demo:** One submission paired a full PDF with a **shipped Lovable prototype** and a **Critique Agent** in the AWSpec — a strong pattern for future cohorts.
+- **Credential hygiene:** If demo accounts appear in a PDF, **redact before public/LMS upload** and rotate secrets if needed.
 
 ---
 
-*Interactive scorecard: [evaluation-scorecard.html](evaluation-scorecard.html)*  
+*Interactive scorecard: [evaluation-scorecard.html](evaluation-scorecard.html) · [shareable-student-evaluation-scorecard.html](shareable-student-evaluation-scorecard.html)*  
 *Reference (parallel course): [AI Vibe Coding — METHODOLOGY](https://github.com/DJN-KRS-2709/AI-Vibe-Coding---Product-School/blob/main/Student%20Evaluation/METHODOLOGY.md) · [Interactive scorecard](https://djn-krs-2709.github.io/AI-Vibe-Coding---Product-School/Student%20Evaluation/evaluation-scorecard.html)*

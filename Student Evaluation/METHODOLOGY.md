@@ -181,7 +181,7 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 
 ## 6. Final Rankings (this run)
 
-**Scope:** **10** unique scored rows after deduplication (current files under `Student Evaluation/`). Header on the scorecard summarizes count and stats.
+**Scope:** **7** teams on the **public shareable scorecard** (deduplicated files under `Student Evaluation/`, **excluding** placeholder-only exports, outline-only decks, and blank/unscorable PDFs). Header on the scorecard summarizes count and stats.
 
 | Rank | Team / artifact | Score |
 |------|-----------------|------:|
@@ -192,13 +192,8 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 | 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
 | 6 | Alex Kröller et al. — updated `f8cc81de…pdf` (RocketShip RAG on-brief) | 82 |
 | 7 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
-| 8 | Placeholder template (`0e63862…pdf` — mostly image/preencoded slides) | 14 |
-| 9 | Room 4 — Berenice Pernalete, Julie Nelson, Rasana Anandan (outline PPTX) | 7 |
-| 10 | Blank / unscorable PDF (`721d88ca…`) | 0 |
 
-**Average score (all 10 rows):** 65.0 / 100  
-
-**Average excluding unscorable (0):** 72.2 / 100 (9 rows)
+**Average score (7 rows on board):** 89.9 / 100
 
 ---
 
@@ -208,7 +203,7 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 - **Most variable dimension:** **UX evidence** — ranged from rich iceberg narrative to placeholders with no screenshots.  
 - **Highest-risk failure mode:** **Wrong-domain content** in RAG or data slides (copy-paste from another project) — breaks trust for the whole submission until fixed.  
 - **AWSpec quality:** Top teams separated on **ReAct / multi-agent clarity**, memory + tool boundaries, and stop conditions.  
-- **Incomplete submissions:** Outline-only decks score low by design; the methodology does **not** apply a participation floor.
+- **Incomplete submissions:** Outline-only decks, placeholder exports, and unscorable PDFs are **omitted from the public scorecard**; they are not averaged with completed team work.
 - **Individual + live demo:** One submission paired a full PDF with a **shipped Lovable prototype** and a **Critique Agent** in the AWSpec — a strong pattern for future cohorts.
 - **Credential hygiene:** If demo accounts appear in a PDF, **redact before public/LMS upload** and rotate secrets if needed.
 

@@ -190,10 +190,10 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 | 3 | Svitlana Vasylyshyn — `Juno_PM_Svitlana_Vasylyshyn.pdf` (+ Lovable demo) | 94 |
 | 4 | Team 2 PMC 5758 | 93 |
 | 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
-| 6 | Alex Kröller et al. — updated `f8cc81de…pdf` (RocketShip RAG on-brief) | 82 |
-| 7 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
+| 6 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
+| 7 | Alex Kröller et al. — `97c8bb59…pptx` (final deliverables deck; slide 7 off-brief RAG domain vs. strategy slide) | 69 |
 
-**Average score (7 rows on board):** 89.9 / 100
+**Average score (7 rows on board):** 88.0 / 100
 
 ---
 

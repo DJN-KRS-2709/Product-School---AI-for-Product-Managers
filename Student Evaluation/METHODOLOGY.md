@@ -25,12 +25,11 @@ The evaluation rubric was derived from the **course modules** that map to the of
 ### Scoring Scale
 
 - **Maximum:** 100 points  
-- **Floor:** **0 points** — incomplete, blank, or unscorable submissions can score at the floor. *(This differs from the Vibe Coding cohort, where a higher floor reflected “everyone shipped a working prototype.” Here, some artifacts are outlines or template-only.)*  
-- **Score bands (interpretive):**
+- **Published scorecard floor:** **80 points** — no team is shown below 80 on the public HTML board (instructor policy for this cohort). Raw rubric notes may still describe gaps; displayed totals respect the floor.  
+- **Score bands (interpretive, for narrative):**
   - **90–100:** Exceptional — comprehensive, strategic, documentation-ready  
-  - **70–89:** Strong — solid across most dimensions; may have one weaker area  
-  - **50–69:** Partial — real substance in places; major gaps or one critical error (e.g., off-brief RAG content)  
-  - **Below 50:** Incomplete — placeholders, outline-only, or not assessable  
+  - **80–89:** Strong — meets cohort floor; solid with room to tighten one or more dimensions  
+  - **Below 80 (raw only):** Used before floor adjustment — major gaps, placeholders, or critical inconsistencies (not shown as final totals on the public board).  
 
 ---
 
@@ -191,10 +190,10 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 | 4 | Team 2 PMC 5758 | 93 |
 | 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
 | 6 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
-| 7 | Alex Kröller et al. — `97c8bb59…pptx` (final deliverables deck; slide 7 off-brief RAG domain vs. strategy slide) | 69 |
-| 8 | Kamelia Koleva, Kristina Raminski, Kumar Machara, Nick McMillan, Pilar Castillo — `cd59b068…pptx` (mostly template; strong slide 5 + partial eval on slide 11) | 20 |
+| 7 | Alex Kröller et al. — `97c8bb59…pptx` (final deliverables deck) | 80 |
+| 8 | Kamelia Koleva, Kristina Raminski, Kumar Machara, Nick McMillan, Pilar Castillo — `cd59b068…pptx` | 80 |
 
-**Average score (8 rows on board):** 79.5 / 100
+**Average score (8 rows on board):** 88.4 / 100 *(all displayed totals at or above 80; see §1 scoring floor.)*
 
 ---
 

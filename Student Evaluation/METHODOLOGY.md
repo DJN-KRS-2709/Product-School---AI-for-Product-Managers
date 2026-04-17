@@ -181,7 +181,7 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 
 ## 6. Final Rankings (this run)
 
-**Scope:** **7** teams on the **public shareable scorecard** (deduplicated files under `Student Evaluation/`, **excluding** placeholder-only exports, outline-only decks, and blank/unscorable PDFs). Header on the scorecard summarizes count and stats.
+**Scope:** **8** teams on the **public shareable scorecard** (deduplicated files under `Student Evaluation/`, **excluding** outline-only decks and blank/unscorable PDFs). Header on the scorecard summarizes count and stats.
 
 | Rank | Team / artifact | Score |
 |------|-----------------|------:|
@@ -192,8 +192,9 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 | 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
 | 6 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
 | 7 | Alex Kröller et al. — `97c8bb59…pptx` (final deliverables deck; slide 7 off-brief RAG domain vs. strategy slide) | 69 |
+| 8 | Kamelia Koleva, Kristina Raminski, Kumar Machara, Nick McMillan, Pilar Castillo — `cd59b068…pptx` (mostly template; strong slide 5 + partial eval on slide 11) | 20 |
 
-**Average score (7 rows on board):** 88.0 / 100
+**Average score (8 rows on board):** 79.5 / 100
 
 ---
 

@@ -61,7 +61,7 @@
   .podium-card.second .podium-score { color: var(--silver); }
   .podium-card.third .podium-score { color: var(--bronze); }
   .podium-reason { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem; font-style: italic; }
-  .feedback-cards { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .feedback-cards { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; padding-bottom: 3rem; }
   .feedback-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; }
   .feedback-card:hover { border-color: var(--accent); }
   .feedback-card.featured { border-color: var(--gold); background: linear-gradient(135deg, rgba(240,192,64,0.06), var(--surface)); box-shadow: 0 0 24px rgba(240,192,64,0.08); position: relative; }
@@ -104,6 +104,13 @@
   .criteria-item .cname { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.2rem; }
   .criteria-item .cweight { font-size: 0.7rem; color: var(--text-muted); }
   .criteria-item .cdesc { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem; }
+  .rank-band {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin: 1.5rem 0 0.5rem;
+    border-left: 4px solid var(--teal);
+  }
+  .rank-band-title { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 0.35rem; }
+  .rank-band-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+  .rank-band-desc code { font-size: 0.78em; color: var(--teal); }
   footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
   @media (max-width: 768px) {
     body { padding: 1rem; }
@@ -169,7 +176,10 @@
     <div class="podium-reason">Individual build with live demo, hybrid RAG rules, and practical eval + mitigation language.</div>
   </div>
 </div>
-<div class="section-title">Full Rankings with Personalized Feedback</div><p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;">Click any card to expand the detailed score breakdown and personalized feedback.</p><div class="feedback-cards">
+<div class="section-title">Full Rankings with Personalized Feedback</div>
+<p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.75rem;">There are <span style="color:var(--teal);font-weight:600">eight</span> teams below. Ranks 6–8 are after Group 7 — <span style="color:var(--teal);font-weight:600">scroll down</span> to see Ali, Alex Kröller, and Kamelia Koleva (including <code style="font-size:0.85em;color:var(--teal)">cd59b068…pptx</code>).</p>
+<p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;">Click any card to expand the detailed score breakdown and personalized feedback.</p>
+<div class="feedback-cards">
   <div class="feedback-card featured" onclick="this.classList.toggle('open')">
     <div class="fc-head">
       <div class="fc-head-left">
@@ -260,6 +270,10 @@
       </div>
     </div>
   </div>
+  <div class="rank-band" id="places-6-through-8">
+    <div class="rank-band-title">Places 6–8 (80 pts each)</div>
+    <div class="rank-band-desc">6 · Ali Bamuallim · 7 · Alex Kröller et al. · 8 · Kamelia Koleva et al. — final deck <code>cd59b0687807f1e7819e9dffeccb928ca34f530d.pptx</code> is rank 8 below.</div>
+  </div>
   <div class="feedback-card" onclick="this.classList.toggle('open')">
     <div class="fc-head">
       <div class="fc-head-left">
@@ -296,11 +310,11 @@
       </div>
     </div>
   </div>
-  <div class="feedback-card" onclick="this.classList.toggle('open')">
+  <div class="feedback-card" onclick="this.classList.toggle('open')" id="kamelia-cd59b068">
     <div class="fc-head">
       <div class="fc-head-left">
         <div class="fc-rank">8</div>
-        <div><div class="fc-name">Kamelia Koleva et al.</div><div class="fc-product">cd59b068…pptx — final deliverables deck</div></div>
+        <div><div class="fc-name">Kamelia Koleva et al.</div><div class="fc-product">cd59b0687807f1e7819e9dffeccb928ca34f530d.pptx — final deliverables deck</div></div>
       </div>
       <div class="fc-score s-mid">80</div>
     </div>
@@ -316,7 +330,7 @@
   </div></div>
 <footer>
   <p>AI Product Management — Student Evaluation (Juno cohort)</p>
-  <p style="margin-top:0.5rem">100-point rubric · April 2026 · Single HTML — share or host on GitHub Pages</p>
+  <p style="margin-top:0.5rem">100-point rubric · April 2026 · Single HTML — share or host on GitHub Pages · <span style="opacity:0.85">Page update: 2026-04-17</span></p>
   <p style="margin-top:0.75rem"><a href="METHODOLOGY.md" style="color:var(--text-muted)">Evaluation methodology</a></p>
 </footer>
 </body>

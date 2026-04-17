@@ -187,7 +187,7 @@ Publish via **GitHub Pages** (or any static host) for sharing—same pattern as 
 | 1 | Dimi Kurtti et al. — *Building Juno* | 97 |
 | 2 | Cappy Lassen, Aml Babikir, Julia Kazak-Nersesava, Karthikraja Raju, Zakia Aliahmad (`c3c06c6a…pdf`, prd-whisperer-hub) | 95 |
 | 3 | Svitlana Vasylyshyn — `Juno_PM_Svitlana_Vasylyshyn.pdf` (+ Lovable demo) | 94 |
-| 4 | Team 2 PMC 5758 | 93 |
+| 4 | Berenice Pernalete, Julie Nelson, Rasana Anandan | 93 |
 | 5 | Group 7 — Andrey Zolotarev et al. (`e2f166fc…pptx`) | 88 |
 | 6 | Ali Bamuallim (`7e50b0fc…pdf`) | 80 |
 | 7 | Alex Kröller et al. — `97c8bb59…pptx` (final deliverables deck) | 80 |
